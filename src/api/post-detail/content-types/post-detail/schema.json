@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "post_details",
+  "info": {
+    "singularName": "post-detail",
+    "pluralName": "post-details",
+    "displayName": "PostDetails",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "PostDetail_id": {
+      "type": "integer"
+    },
+    "PostDetail_Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "richtext"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "PostDetail_Title"
+    },
+    "create": {
+      "type": "date"
+    },
+    "update": {
+      "type": "date"
+    }
+  }
+}
