@@ -12,13 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "text"
+    "categorie_title": {
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "title",
-      "required": true
+      "required": true,
+      "targetField": "categorie_title"
     },
     "created": {
       "type": "date"
@@ -29,7 +30,8 @@
     "categorie_id": {
       "type": "integer",
       "required": true,
-      "unique": true
+      "unique": true,
+      "private": true
     },
     "posts": {
       "type": "relation",

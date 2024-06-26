@@ -19,14 +19,13 @@
       "private": true
     },
     "post_title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "post_title"
-    },
-    "content": {
-      "type": "richtext"
+      "targetField": "post_title",
+      "required": true
     },
     "created": {
       "type": "date"
@@ -39,6 +38,20 @@
       "relation": "manyToOne",
       "target": "api::categorie.categorie",
       "inversedBy": "posts"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "light"
+      },
+      "customField": "plugin::ckeditor.CKEditor"
+    },
+    "post_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::post-detail.post-detail",
+      "mappedBy": "post"
     }
   }
 }

@@ -13,23 +13,40 @@
   "pluginOptions": {},
   "attributes": {
     "PostDetail_id": {
-      "type": "integer"
+      "type": "integer",
+      "required": true,
+      "unique": true,
+      "private": true
     },
     "PostDetail_Title": {
-      "type": "string"
-    },
-    "Content": {
-      "type": "richtext"
+      "type": "string",
+      "required": true
     },
     "slug": {
       "type": "uid",
-      "targetField": "PostDetail_Title"
+      "targetField": "PostDetail_Title",
+      "required": true,
+      "maxLength": 100
     },
     "create": {
       "type": "date"
     },
     "update": {
       "type": "date"
+    },
+    "content": {
+      "type": "customField",
+      "options": {
+        "output": "HTML",
+        "preset": "light"
+      },
+      "customField": "plugin::ckeditor.CKEditor"
+    },
+    "post": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post.post",
+      "inversedBy": "post_details"
     }
   }
 }

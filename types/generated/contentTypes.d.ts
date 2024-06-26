@@ -800,12 +800,15 @@ export interface ApiCategorieCategorie extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    title: Attribute.Text;
-    slug: Attribute.UID<'api::categorie.categorie', 'title'> &
+    categorie_title: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::categorie.categorie', 'categorie_title'> &
       Attribute.Required;
     created: Attribute.Date;
     updated: Attribute.Date;
-    categorie_id: Attribute.Integer & Attribute.Required & Attribute.Unique;
+    categorie_id: Attribute.Integer &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.Unique;
     posts: Attribute.Relation<
       'api::categorie.categorie',
       'oneToMany',
@@ -845,15 +848,27 @@ export interface ApiPostPost extends Schema.CollectionType {
       Attribute.Required &
       Attribute.Private &
       Attribute.Unique;
-    post_title: Attribute.String;
-    slug: Attribute.UID<'api::post.post', 'post_title'>;
-    content: Attribute.RichText;
+    post_title: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::post.post', 'post_title'> & Attribute.Required;
     created: Attribute.Date;
     updated: Attribute.Date;
     category: Attribute.Relation<
       'api::post.post',
       'manyToOne',
       'api::categorie.categorie'
+    >;
+    content: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor.CKEditor',
+        {
+          output: 'HTML';
+          preset: 'light';
+        }
+      >;
+    post_details: Attribute.Relation<
+      'api::post.post',
+      'oneToMany',
+      'api::post-detail.post-detail'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -877,12 +892,31 @@ export interface ApiPostDetailPostDetail extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    PostDetail_id: Attribute.Integer;
-    PostDetail_Title: Attribute.String;
-    Content: Attribute.RichText;
-    slug: Attribute.UID<'api::post-detail.post-detail', 'PostDetail_Title'>;
+    PostDetail_id: Attribute.Integer &
+      Attribute.Required &
+      Attribute.Private &
+      Attribute.Unique;
+    PostDetail_Title: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::post-detail.post-detail', 'PostDetail_Title'> &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
     create: Attribute.Date;
     update: Attribute.Date;
+    content: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor.CKEditor',
+        {
+          output: 'HTML';
+          preset: 'light';
+        }
+      >;
+    post: Attribute.Relation<
+      'api::post-detail.post-detail',
+      'manyToOne',
+      'api::post.post'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
